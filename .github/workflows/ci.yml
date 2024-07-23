@@ -1,6 +1,6 @@
 name: CI
 
-on: [push, pull_request]
+on: [workflow_dispatch, push, pull_request]
 
 jobs:
   linux:
@@ -28,6 +28,11 @@ jobs:
 
     - name: Build (Release)
       run: ninja -C release
+    - name: Upload Artifact (Linux)
+      uses: actions/upload-artifact@v1
+      with:
+        name: libRefresh-linux
+        path: ./release/
 
   macos:
     name: macOS (CMake)
@@ -54,6 +59,12 @@ jobs:
 
     - name: Build (Release)
       run: ninja -C release
+
+    - name: Upload Artifact (OSX)
+      uses: actions/upload-artifact@v1
+      with:
+        name: libRefresh-osx
+        path: ./release/
 
   windows-msvc:
     name: Windows (MSVC)
@@ -102,6 +113,12 @@ jobs:
 
     - name: Build (Release)
       run: cmake --build release
+
+    - name: Upload Artifact (Linux)
+      uses: actions/upload-artifact@v1
+      with:
+        name: Refresh-win-x64
+        path: ./release/Debug
 
   windows-mingw:
     name: Windows (MinGW)
